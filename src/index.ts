@@ -1,13 +1,18 @@
-const { Client, LocalAuth } = require("whatsapp-web.js");
-const Fastify = require("fastify");
-const qrcode = require("qrcode-terminal");
+
+
+// const { Client, LocalAuth } = require("whatsapp-web.js");
+// const Fastify = require("fastify");
+// const qrcode = require("qrcode-terminal");
+import { Client, LocalAuth } from "whatsapp-web.js";
+import Fastify from "fastify";
+import QRCode from "qrcode-terminal";
 
 const client = new Client({
     authStrategy: new LocalAuth({ clientId: "default" }),
 });
 client.on("qr", (qr) => {
     console.log("Please scan this QR Code to connect");
-    qrcode.generate(qr);
+    // QRCode.generate(qr);
 });
 client.on("ready", () => {
     console.log("Client is ready!");
@@ -19,10 +24,10 @@ const fastify = Fastify({
 
 // Declare a route
 fastify.get("/", async function handler(request, reply) {
-    return { hello: "world" };
+    return { hello: "test" };
 });
 
 (async () => {
     client.initialize();
-    await fastify.listen({ port: 3000 });
+    await fastify.listen({ port: 3001 });
 })();
