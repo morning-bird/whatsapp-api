@@ -1,0 +1,18 @@
+{
+    "name": "whatsapp-api",
+    "version": "0.1.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "fastify": "^4.25.2",
+        "whatsapp-web.js": "github:pedroslopez/whatsapp-web.js"
+    },
+    "devDependencies": {
+        "qrcode-terminal": "^0.12.0"
+    }
+}
