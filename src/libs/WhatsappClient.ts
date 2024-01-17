@@ -78,13 +78,17 @@ export default class WhatsappClient {
         return this.client.sendMessage(chatId, poll);
     }
 
-    private sendToWebhook(object: any) {
+    private async sendToWebhook(object: any) {
         if (this.webhookUrl) {
-            fetch(this.webhookUrl, {
-                method: 'POST', headers: {
-                    'Content-Type': 'application/json'
-                }, body: JSON.stringify(object)
-            });
+            try {
+                await fetch(this.webhookUrl, {
+                    method: 'POST', headers: {
+                        'Content-Type': 'application/json'
+                    }, body: JSON.stringify(object)
+                });
+            } catch (exc) {
+                console.error("Error at sendToWebhook", exc)
+            }
         }
     }
 
