@@ -59,12 +59,15 @@ fastify.post("/sessions/:session/stop", async (req: FastifyRequest<{
 })
 
 fastify.post("/sessions/:session/start", async (req: FastifyRequest<{
-    Params: { session: string }
+    Params: { session: string },
+    Body: {
+        webhookUrl?: string
+    }
 }>, res) => {
     const sessionName = req.params.session.toLowerCase();
     let client = clients.get(sessionName);
     if (!client) {
-        client = new WhatsappClient(sessionName);
+        client = new WhatsappClient(sessionName, req.body.webhookUrl);
         clients.set(sessionName, client);
     }
     return {};
