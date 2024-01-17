@@ -74,7 +74,10 @@ fastify.post("/sessions/:session/start", async (req: FastifyRequest<{
 })
 
 fastify.get("/sessions/:session/auth/qr", async (req: FastifyRequest<{
-    Params: { session: string }
+    Params: { session: string },
+    Querystring: {
+        type?: "png" | "base64"
+    }
 }>, res) => {
     const sessionName = req.params.session.toLowerCase();
     let client = clients.get(sessionName);
@@ -83,9 +86,18 @@ fastify.get("/sessions/:session/auth/qr", async (req: FastifyRequest<{
     }
     const state = client.getState();
     if (state === WhatsappSessionStatus.SCAN_QR_CODE && client.qrValue) {
-        const buffer = await QRCode.toBuffer(client.qrValue)
-        res.type("image/png")
-        return res.send(buffer)
+        let type = req.query.type === "png" ? "png" : "base64"
+        if (type === "png") {
+            const buffer = await QRCode.toBuffer(client.qrValue)
+            res.type("image/png")
+            return res.send(buffer)
+        } else {
+            let dataUrl = await QRCode.toDataURL(client.qrValue)
+            return res.send({
+                mimetype: 'image/png',
+                data: dataUrl
+            })
+        }
     }
     return {
         result: {
