@@ -14,7 +14,7 @@ fastify.addHook("onRequest", (req: FastifyRequest<{
     Params: { session: string }
 }>, res: FastifyReply, done) => {
     let error;
-    if (req.routerPath && (req.routerPath.startsWith('/:session/'))) {
+    if (req.routerPath && req.routerPath.startsWith('/:session/')) {
         const sessionName = req.params.session;
         const client = clients.get(sessionName);
         if (!client) {
@@ -73,7 +73,7 @@ fastify.post("/sessions/:session/start", async (req: FastifyRequest<{
     return {};
 })
 
-fastify.get("/:session/auth/qr", async (req: FastifyRequest<{
+fastify.get("/sessions/:session/auth/qr", async (req: FastifyRequest<{
     Params: { session: string }
 }>, res) => {
     const sessionName = req.params.session.toLowerCase();

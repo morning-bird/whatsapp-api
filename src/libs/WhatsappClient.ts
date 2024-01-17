@@ -14,7 +14,10 @@ export default class WhatsappClient {
         }
         this.status = WhatsappSessionStatus.STARTING;
         const client = new Client({
-            authStrategy: new LocalAuth({ clientId: sessionName })
+            authStrategy: new LocalAuth({ clientId: sessionName }),
+            puppeteer: {
+                args: ['--no-sandbox'],
+            }
         });
         client.on(Events.READY, () => {
             console.debug(`${sessionName} is ready!`)
