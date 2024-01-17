@@ -1,0 +1,5 @@
+.git
+.env
+.wwebjs_auth
+.wwebjs_cache
+docker-compose.yaml

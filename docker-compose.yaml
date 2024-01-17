@@ -1,0 +1,8 @@
+version: "3"
+services:
+    whatsapp-http-api:
+        image: renato92/whatsapp-api
+        container_name: whatsappp-api
+        build: .
+        ports:
+            - "3000:3000"

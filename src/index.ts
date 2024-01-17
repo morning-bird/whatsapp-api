@@ -178,6 +178,18 @@ fastify.get("/:session/messages/:chatId", async (req: FastifyRequest<{
     }
 })
 
+fastify.get("/:session/checkNumberStatus", async (req: FastifyRequest<{
+    Params: { session: string, number: string }
+}>, res) => {
+    const client = clients.get(req.params.session)!;
+    const chatId = await client.client.getNumberId(req.params.number);
+    return {
+        result: {
+            isValid: !!chatId
+        }
+    }
+})
+
 fastify.get("/:session/groups", async (req: FastifyRequest<{
     Params: { session: string }
 }>, res) => {
