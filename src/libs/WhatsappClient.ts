@@ -13,8 +13,9 @@ export default class WhatsappClient {
             this.webhookUrl = webhookUrl;
         }
         this.status = WhatsappSessionStatus.STARTING;
+        let dataPath = process.env.DATA_PATH ? `${process.env.DATA_PATH}/.wwebjs_auth` : undefined
         const client = new Client({
-            authStrategy: new LocalAuth({ clientId: sessionName }),
+            authStrategy: new LocalAuth({ clientId: sessionName, dataPath: dataPath }),
             puppeteer: {
                 args: ['--no-sandbox'],
             }
