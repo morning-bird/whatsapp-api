@@ -52,7 +52,7 @@ export default class WhatsappClient {
                 state: WhatsappSessionStatus.SCAN_QR_CODE,
                 result: value
             })
-            console.log(`Scan the following code with your phone:\n${value}`);
+            console.log(`${sessionName}}: Scan the following code with your phone:\n${value}`);
         })
         client.initialize();
         this.client = client;

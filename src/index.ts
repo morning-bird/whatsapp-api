@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import Fastify, { FastifyReply, FastifyRequest } from "fastify";
 import WhatsappClient from './libs/WhatsappClient';
-import { WAState } from 'whatsapp-web.js';
 import QRCode from "qrcode";
 import { WhatsappSessionStatus } from './structures/enum';
 
@@ -65,12 +64,18 @@ fastify.post("/sessions/:session/start", async (req: FastifyRequest<{
     }
 }>, res) => {
     const sessionName = req.params.session.toLowerCase();
+    let sessionExists = true;
     let client = clients.get(sessionName);
     if (!client) {
         client = new WhatsappClient(sessionName, req.body.webhookUrl);
         clients.set(sessionName, client);
+        sessionExists = false;
     }
-    return {};
+    return {
+        result: {
+            sessionExists
+        }
+    };
 })
 
 fastify.get("/sessions/:session/auth/qr", async (req: FastifyRequest<{
